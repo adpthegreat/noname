@@ -5,10 +5,7 @@ use std::ops::Neg;
 use ark_ff::{Field, One, Zero};
 
 use crate::{
-    backends::Backend,
-    circuit_writer::CircuitWriter,
-    constants::Span,
-    var::{ConstOrCell, Var},
+    backends::Backend, circuit_writer::CircuitWriter, compiler, constants::Span, var::{ConstOrCell, Var}
 };
 
 use super::field::sub;
@@ -93,7 +90,6 @@ pub fn not<B: Backend>(
         }
     }
 }
-
 pub fn or<B: Backend>(
     compiler: &mut CircuitWriter<B>,
     lhs: &ConstOrCell<B::Field, B::Var>,
@@ -105,3 +101,19 @@ pub fn or<B: Backend>(
     let both_false = and(compiler, &not_lhs[0], &not_rhs[0], span);
     not(compiler, &both_false[0], span)
 }
+
+// make from two not gates, two and gates and an or gate
+pub fn xor<B: Backend>(
+    compiler: &mut CircuitWriter<B>,
+    lhs: &ConstOrCell<B::Field, B::Var>,
+    rhs: &ConstOrCell<B::Field, B::Var>,
+    span: Span,
+) -> Var<B::Field, B::Var> {
+    let not_lhs = not(compiler, lhs, span);
+    let not_rhs = not(compiler, rhs, span);
+    let and_lhs = and(compiler, lhs, &not_rhs[0],span);
+    let and_rhs = and(compiler, rhs, &not_lhs[0], span);
+    or(compiler, &and_lhs[0], &and_rhs[0], span)
+}
+
+

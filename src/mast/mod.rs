@@ -556,7 +556,8 @@ fn monomorphize_expr<B: Backend>(
                 | Op2::Multiplication
                 | Op2::Division
                 | Op2::BoolAnd
-                | Op2::BoolOr => lhs_mono.typ,
+                | Op2::BoolOr 
+                | Op2::BoolXor => lhs_mono.typ,
             };
 
             let ExprMonoInfo { expr: lhs_expr, .. } = lhs_mono;

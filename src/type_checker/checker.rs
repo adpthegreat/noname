@@ -309,7 +309,8 @@ impl<B: Backend> TypeChecker<B> {
                     | Op2::Multiplication
                     | Op2::Division
                     | Op2::BoolAnd
-                    | Op2::BoolOr => lhs_node.typ,
+                    | Op2::BoolOr 
+                    | Op2::BoolXor => lhs_node.typ,
                 };
 
                 Some(ExprTyInfo::new_anon(typ))

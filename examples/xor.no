@@ -1,0 +1,18 @@
+fn main(pub public_input: Field, private_input: Field) {
+    // constants
+    let ww = true ^ true;
+    assert(!ww);
+
+    // constants
+    let zz = false ^ false;
+    assert(!zz);
+    
+    // private input must be true
+    let yy = private_input ^ true;
+    assert(yy);
+
+    // public input must be false
+    let zz = public_input ^ false;
+    assert(zz);
+}
+

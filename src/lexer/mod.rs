@@ -149,6 +149,7 @@ pub enum TokenKind {
     DoublePipe,         // ||
     Exclamation,        // !
     Question,           // ?
+    Caret,              // ^
                         //    Literal,               // "thing"
 }
 
@@ -190,6 +191,7 @@ impl Display for TokenKind {
             DoublePipe => "`||`",
             Exclamation => "`!`",
             Question => "`?`",
+            Caret => "`^`",
             //            TokenType::Literal => "`\"something\"",
         };
 
@@ -419,9 +421,11 @@ impl Token {
                         tokens.push(TokenKind::Exclamation.new_token(ctx, 1));
                     }
                 }
-
                 '?' => {
                     tokens.push(TokenKind::Question.new_token(ctx, 1));
+                }
+                '^' => {
+                    tokens.push(TokenKind::Caret.new_token(ctx, 1));
                 }
                 ' ' => ctx.offset += 1,
                 _ => {

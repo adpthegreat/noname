@@ -506,6 +506,24 @@ fn test_public_output_bool(#[case] backend: BackendKind) -> miette::Result<()> {
 #[rstest]
 #[case::kimchi_vesta(BackendKind::KimchiVesta(KimchiVesta::new(false)))]
 #[case::r1cs(BackendKind::R1csBls12_381(R1CS::new()))]
+fn test_xor(#[case] backend: BackendKind) -> miette::Result<()> {
+    let public_inputs = r#"{"public_input": "true"}"#;
+    let private_inputs = r#"{"private_input": "false"}"#;
+
+    test_file(
+        "xor",
+        public_inputs,
+        private_inputs,
+        vec![],
+        backend,
+    )?;
+
+    Ok(())
+}
+
+#[rstest]
+#[case::kimchi_vesta(BackendKind::KimchiVesta(KimchiVesta::new(false)))]
+#[case::r1cs(BackendKind::R1csBls12_381(R1CS::new()))]
 fn test_public_output_types(#[case] backend: BackendKind) -> miette::Result<()> {
     let private_inputs = r#"{}"#;
     let public_inputs = r#"{"xx": "1", "yy": "2"}"#;

@@ -133,6 +133,7 @@ pub enum Op2 {
     Inequality,
     BoolAnd,
     BoolOr,
+    BoolXor
 }
 
 impl Expr {
